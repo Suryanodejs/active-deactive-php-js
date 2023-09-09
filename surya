@@ -1,0 +1,34 @@
+ <td class="text-center">
+                            <?php if($record->status == '1'){?>
+                            <a class="btn btn-sm btn-success user_status12" uid="<?php echo $record->vendorId; ?>" ustatus="<?php echo $record->status; ?>">Active</a>
+                           <?php }else{?>
+                               <a class="btn btn-sm btn-danger user_status12" uid="<?php echo $record->vendorId; ?>" ustatus="<?php echo $record->status; ?>">In-Active</a> 
+                          <?php  }?>
+                            <!--<a class="btn btn-sm btn-danger deleteBooking" href="#" data-bookingid="<?php echo $record->vendorId; ?>" title="Delete"><i class="fa fa-trash"></i></a>-->
+                        </td>
+<?php
+    public function user_status_changed(){
+   
+	$id = $this->input->post('id');
+	$status = $this->input->post('status');
+
+    //check condition
+	if($status == '1'){
+		$user_status = '0';
+	}
+	else{
+		$user_status = '1';
+	}
+
+	$data = array('status' => $user_status );
+
+	$this->db->where('vendorId',$id);
+	$this->db->update('tbl_vendor', $data); //Update status here
+
+    //Create success measage
+	$this->session->set_flashdata('msg',"User status has been changed successfully.");
+    $this->session->set_flashdata('msg_class','alert-success');
+
+     redirect(base_url().'Vendor/vendorListing');
+}
+?>
